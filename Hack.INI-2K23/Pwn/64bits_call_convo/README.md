@@ -7,14 +7,25 @@
 ## Part two
 
 -Lets have some infos about this elf binary 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+``` 
+└─$ file chall
+chall: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.2, BuildID[sha1]=b3563ca5a27565370cc241ea9e18b31339da248d, for GNU/Linux 3.2.0, not stripped
+```
 we can see that this is a 32bits elf so we have a simulation how this is going to be
 
 -Now lets execute this binary and see what we got
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-
+```
+└─$ ./chall
+Enter data: hellllo world!
+You entered: hellllo world!
+``` 
 -What if we give it now more than 32 charachter !
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+```
+└─$ ./chall  
+Enter data: aaaabaaacaaadaaaeaaafaaagaaahaaaia
+Stack Smashing detected
+The program will automatically exit
+```
 hmm that was expected xD
 
 -Now lets pwn this program and get the flag 
@@ -28,5 +39,7 @@ hmm that was expected xD
 
 ## Ressources
 
-You will find here a video more detailed about the [challenge](https://www.youtube.com/watch?v=vO1Uj2v3r7I)
+More detailed video about the challenge [here](https://www.youtube.com/watch?v=vO1Uj2v3r7I)
+
+The solution for the challenge [here](https://www.youtube.com/watch?v=vO1Uj2v3r7I)
 
