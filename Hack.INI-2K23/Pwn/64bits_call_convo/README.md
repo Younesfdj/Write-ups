@@ -41,5 +41,5 @@ hmm that was expected xD
 
 More detailed video about the challenge [here](https://www.youtube.com/watch?v=vO1Uj2v3r7I)
 
-The solution for the challenge [here](https://www.youtube.com/watch?v=vO1Uj2v3r7I)
+The solution for the challenge [here]([https://www.youtube.com/watch?v=vO1Uj2v3r7I](https://github.com/Younesfdj/Write-ups/blob/main/Hack.INI-2K23/Pwn/64bits_call_convo/exploit.py))
 
