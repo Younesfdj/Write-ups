@@ -9,9 +9,9 @@
 -Lets have some infos about this elf binary 
 ``` 
 └─$ file chall
-chall: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.2, BuildID[sha1]=b3563ca5a27565370cc241ea9e18b31339da248d, for GNU/Linux 3.2.0, not stripped
+chall: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=db9abcaff5baddee93c28d193df776e58d66ba70, not stripped
 ```
-we can see that this is a 32bits elf so we have a simulation how this is going to be
+we can see that this is a 64bits elf , things are not going to be like the 32bits arch
 
 -Now lets execute this binary and see what we got
 ```
@@ -28,14 +28,38 @@ The program will automatically exit
 ```
 hmm that was expected xD
 
--Now lets pwn this program and get the flag 
+-Before proceeding to pwn this program there's something important to be discussed , the steps of pwning this program gonna be the same as the 32bits arch except that the registers we are going to over write are 64bits sized so we use struct.pack("Q",....) instead of "I" to represent the data as 64bits long
 
+One other thing that is interesting is the arguments in 64bits arch are passed in the RDI and RSI registers , so we need an instruction to set the RDI to 0xdeadbeef and RSI to 0x1337 , this can be done using a gadget 
+
+-Lets find the good gadgets using the commands below 
+```
+└─$ ropper --file chall --search "pop rsi"
+[INFO] Load gadgets from cache
+[LOAD] loading... 100%
+[LOAD] removing double gadgets... 100%
+[INFO] Searching for gadgets: pop rsi
+
+[INFO] File: chall
+0x0000000000400931: pop rsi; pop r15; ret;
+```
+And 
+```
+└─$ ropper --file chall --search "pop rdi"
+[INFO] Load gadgets from cache
+[LOAD] loading... 100%
+[LOAD] removing double gadgets... 100%
+[INFO] Searching for gadgets: pop rdi
+
+[INFO] File: chall
+0x0000000000400933: pop rdi; ret; 
+```
 ## What to do 
 
 - Overflow the char array until we get stack smashing 
 - Resetting a and b to bypass the if statement that checks if there's a stack smashing or not 
-- We overflow again until we arrive to saved rip and over write it with the win function so that it will return to win rather than returning to main after executing vuln()
-- Now we should handle the arguments by overflowing the stack until we arrive to where the arguments are located and we over write them with 0xdeadbeef and 0x1337
+- We overflow again until we arrive to saved rip and over write it with the gadgets than the value we want to set the rdi to then rsi gadget and its value then with the win function so that it will return to win rather than returning to main after executing vuln()
+- One important thing to focus on is the pop rsi gadget also set the r15 register so we need to pass the wanted value for rsi and a junk for r15
 
 ## Ressources
 
