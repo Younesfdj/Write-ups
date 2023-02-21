@@ -1,0 +1,1 @@
+The solution is to follow the movzx instruction by order and get the ascii of the hex number that is checked in the next instruction which is cmp al,(hex_number)
