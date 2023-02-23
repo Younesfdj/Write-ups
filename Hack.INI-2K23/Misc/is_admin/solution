@@ -1,0 +1,11 @@
+From the given code we may notice some important points which are :
+-The program has two inputs ( key and value )
+-The program uses regular expressions to check if input matches any single letter ( uppercase or lowercase ) or underscore
+-There is a private attribute (we can not modify it from outisde the class) called __admin initialzed with false
+-The __admin attribute decides if the flag is prited or not
+-The program call setattr() func which set attribute 'key' of value 'value' in user object --- hmm interesting 
+Reading about private attribute in python we may notice that private attributes in python are not actually private and could be accessed from outised the class and we can use setattr() func to do so
+-Solution : from the documentation we find that self.__admin is actually stored as _User__admin so we can simply set key=_User__admin and value=True and we can log in as admin and get the flag
+
+
+shellmates{4Ft3r_4ll_n0t_soo0_PrYvate}
