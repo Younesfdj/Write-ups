@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-#from flag import Flag
-#from flag import notFlag
+from flag import Flag
+from flag import notFlag
 import re
 
 pattern = r'^[a-zA-Z_]*$'
@@ -17,9 +17,7 @@ class User:
         if self.__admin:
             print(Flag)
         else :
-            print("self.__admin=",self.__admin)
-            print(f"key={key} value={value}")
-            #print(notFlag)
+            print(notFlag)
         exit()
 
 user = User()
@@ -30,7 +28,6 @@ value = input("Value : ").strip()
 
 
 if valid(key) or valid(value):
-    print("passed")
     setattr(user,key,value)
 
 user.isAdmin()
