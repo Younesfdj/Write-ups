@@ -5,17 +5,17 @@
 └─$ file chall
 chall: ELF 32-bit LSB pie executable, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.2, BuildID[sha1]=9287e3a80b10eb0d8c384f5a2e352833abf64b49, for GNU/Linux 3.2.0, not stripped
 ```
-
+so we're working with 32 bits elf , hmm noicee
 -Lets open it with ghidra now
 
 ## Part two
 
 -As the pic shows there is nothing in the main() function
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](https://github.com/Younesfdj/Write-ups/tree/main/Hack.INI-2K23/Pwn/Ret2libc/screens/main.png)
 lets check the vuln() function
 
 -The vuln() function is get a string of 36 chars from the user using the gets() function
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](https://github.com/Younesfdj/Write-ups/tree/main/Hack.INI-2K23/Pwn/Ret2libc/screens/vuln.png)
 Since the program is using gets we could control the instruction pointer to point wherever we want but!,
 there's no a win function to print our flag also we cant inject arbitary code to get access to the machine since the stack is non-executable as the checksec shows
 ```
