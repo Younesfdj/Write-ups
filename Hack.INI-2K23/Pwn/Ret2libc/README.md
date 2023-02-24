@@ -11,11 +11,15 @@ so we're working with 32 bits elf , hmm noicee
 ## Part two
 
 -As the pic shows there is nothing in the main() function
-![App Screenshot](https://github.com/Younesfdj/Write-ups/tree/main/Hack.INI-2K23/Pwn/Ret2libc/screens/main.png)
+
+![App Screenshot](https://github.com/Younesfdj/Write-ups/blob/main/Hack.INI-2K23/Pwn/Ret2libc/screens/main.png)
+
 lets check the vuln() function
 
 -The vuln() function is get a string of 36 chars from the user using the gets() function
-![App Screenshot](https://github.com/Younesfdj/Write-ups/tree/main/Hack.INI-2K23/Pwn/Ret2libc/screens/vuln.png)
+
+![App Screenshot](https://github.com/Younesfdj/Write-ups/blob/main/Hack.INI-2K23/Pwn/Ret2libc/screens/vuln.png)
+
 Since the program is using gets we could control the instruction pointer to point wherever we want but!,
 there's no a win function to print our flag also we cant inject arbitary code to get access to the machine since the stack is non-executable as the checksec shows
 ```
