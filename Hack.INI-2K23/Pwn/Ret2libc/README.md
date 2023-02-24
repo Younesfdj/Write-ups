@@ -16,12 +16,12 @@ so we're working with 32 bits elf , hmm noicee
 
 lets check the vuln() function
 
--The vuln() function is get a string of 36 chars from the user using the gets() function
+-The vuln() function is used to get a string of 36 bytes from the user using the gets() function
 
 ![App Screenshot](https://github.com/Younesfdj/Write-ups/blob/main/Hack.INI-2K23/Pwn/Ret2libc/screens/vuln.png)
 
 Since the program is using gets we could control the instruction pointer to point wherever we want but!,
-there's no a win function to print our flag also we cant inject arbitary code to get access to the machine since the stack is non-executable as the checksec shows
+there's no a win function that prints our flag also we cant inject arbitary code to get access to the machine since the stack is non-executable as the checksec shows
 ```
 └─$ checksec chall  
 [*] '/home/sams/Desktop/hack.ini2k23/pwn/ret2libc/chall'
@@ -31,7 +31,7 @@ there's no a win function to print our flag also we cant inject arbitary code to
     NX:       NX enabled
     PIE:      PIE enabled
 ```
--As the name of the challenge we could think of using the technique of ret2libc to get the full access to the machine, the idea is to overwrite the eip to return to a libc function which is gonna be system() function in our case after, that we set its parameter which gonna be '/bin/sh' to get a shell 
+-As the name of the challenge we could think of using the ret2libc technique to get a shell and get the flag, the idea is to overwrite the eip to return to a libc function which is gonna be system() function in our case after, that we set its parameter which gonna be '/bin/sh' to get a shell 
 
 ## What to do 
 
@@ -59,7 +59,7 @@ then we do some math
 
 @/bin/sh = @printf - OFFSET printf + OFFSET "/bin/sh"
 
-- We need alse to find the perfect padding to overwrite the saved eip which gonna be 44 bytes in our case 
+- We need also to find the perfect padding to overwrite the saved eip which gonna be 44 bytes in our case 
 
 ## Ressources
 More detailed video about the challenge [here](https://www.youtube.com/watch?v=m17mV24TgwY)
