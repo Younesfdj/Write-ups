@@ -19,7 +19,7 @@ def conn():
         r = process([exe.path])
         #gdb.attach(r, gdb_script)
     else:
-        r = remote("addr", 1337)
+        r = remote("10.10.249.75", 9008)
 
     return r
 
