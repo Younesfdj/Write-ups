@@ -1,0 +1,9 @@
+services:
+  app:
+    build: .
+    image: asia-east2-docker.pkg.dev/d3ctf-2025/d3ctf-2025-registry/web-tidy-quic:1.0
+    environment:
+      FLAG: flag{111111111}
+    ports:
+      - 8080:8080/udp
+      - 8080:8080/tcp
