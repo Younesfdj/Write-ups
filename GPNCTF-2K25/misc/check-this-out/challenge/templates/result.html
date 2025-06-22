@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if success %}Verification Successful{% else %}Verification Failed{% endif %} - Git Bundle Verifier</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl w-full">
+        {% if success %}
+        <!-- Success state -->
+        <div class="flex items-center justify-center mb-6">
+            <div class="rounded-full bg-green-100 p-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+        </div>
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Verification Successful</h1>
+        {% else %}
+        <!-- Error state -->
+        <div class="flex items-center justify-center mb-6">
+            <div class="rounded-full bg-red-100 p-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </div>
+        </div>
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Verification Failed</h1>
+        <p class="text-lg text-center mb-4 text-gray-700">{{ error_title }}</p>
+        {% endif %}
+
+        {% if output %}
+        <div class="mt-6">
+            <h2 class="text-xl font-semibold mb-3 text-gray-800">{% if success %}Output{% else %}Error Details{% endif %}</h2>
+            <div class="bg-gray-800 rounded-lg p-4 overflow-x-auto">
+                <pre class="{% if success %}text-green-400{% else %}text-red-400{% endif %} font-mono text-sm whitespace-pre-line"><code>{{ output }}</code></pre>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="mt-6 text-center">
+            <a href="/" class="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition duration-200 shadow-md hover:shadow-lg cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0">
+                Back to Upload
+            </a>
+        </div>
+    </div>
+</body>
+</html>

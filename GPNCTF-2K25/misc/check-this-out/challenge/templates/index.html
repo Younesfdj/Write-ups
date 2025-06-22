@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Bundle Verifier</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+<div class="bg-white p-8 rounded-lg shadow-md max-w-2xl w-full">
+    <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">Git Bundle Verifier</h1>
+
+    <form action="/submit" method="post" enctype="multipart/form-data" class="space-y-6">
+        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 hover:bg-blue-50 transition-colors duration-200 cursor-pointer"
+             onclick="document.getElementById('fileUpload').click()">
+            <div class="mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-400" fill="none"
+                     viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                </svg>
+            </div>
+            <span class="text-gray-700 font-medium">Select a Git Bundle File (.bundle)</span>
+            <input id="fileUpload" name="file" type="file" accept=".bundle" class="hidden" required/>
+            <p class="text-sm text-gray-500 mt-2">Click to browse or drag and drop</p>
+            <p id="selectedFileName" class="mt-2 text-sm text-blue-600 hidden"></p>
+        </div>
+
+        <button type="submit" id="submitButton" disabled
+                class="w-full py-3 px-4 bg-gray-400 text-white font-medium rounded-lg transition duration-200 shadow-md cursor-not-allowed">
+            Upload Bundle
+        </button>
+    </form>
+
+    <div class="mt-8">
+        <h2 class="text-xl font-semibold mb-3 text-gray-800">Verification Process</h2>
+        <div class="bg-gray-800 rounded-lg p-4 overflow-x-auto">
+                <pre class="text-green-400 font-mono text-sm whitespace-pre-line"><code>mkdir local
+git clone --mirror your-bundle.bundle local/.git
+cd local
+git config --bool core.bare false
+git rev-list 36a168b7942eedf14b33912db25357cb254457e9
+git checkout 36a168b7942eedf14b33912db25357cb254457e9 && ./run.sh</code></pre>
+        </div>
+        <p class="text-sm text-gray-600 mt-2">These commands will be executed to verify your bundle submission.</p>
+    </div>
+</div>
+
+<script>
+    // Display selected filename
+    document.getElementById('fileUpload').addEventListener('change', function (e) {
+        const fileName = e.target.files[0] ? e.target.files[0].name : '';
+        const fileNameElement = document.getElementById('selectedFileName');
+        const submitButton = document.getElementById('submitButton');
+
+        if (fileName) {
+            fileNameElement.textContent = 'Selected: ' + fileName;
+            fileNameElement.classList.remove('hidden');
+            submitButton.disabled = false;
+            submitButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+            submitButton.classList.add('bg-blue-600', 'hover:bg-blue-700', 'cursor-pointer', 'transform', 'hover:-translate-y-0.5', 'active:translate-y-0', 'hover:shadow-lg');
+        } else {
+            fileNameElement.classList.add('hidden');
+            submitButton.disabled = true;
+            submitButton.classList.remove('bg-blue-600', 'hover:bg-blue-700', 'cursor-pointer', 'transform', 'hover:-translate-y-0.5', 'active:translate-y-0', 'hover:shadow-lg');
+            submitButton.classList.add('bg-gray-400', 'cursor-not-allowed');
+        }
+    });
+
+    // Enable drag and drop
+    const dropZone = document.querySelector('.border-dashed');
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight() {
+        dropZone.classList.add('border-blue-400', 'bg-blue-50');
+    }
+
+    function unhighlight() {
+        dropZone.classList.remove('border-blue-400', 'bg-blue-50');
+    }
+
+    dropZone.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        document.getElementById('fileUpload').files = files;
+
+        const fileName = files[0] ? files[0].name : '';
+        const fileNameElement = document.getElementById('selectedFileName');
+        const submitButton = document.getElementById('submitButton');
+
+        if (fileName) {
+            fileNameElement.textContent = 'Selected: ' + fileName;
+            fileNameElement.classList.remove('hidden');
+            submitButton.disabled = false;
+            submitButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+            submitButton.classList.add('bg-blue-600', 'hover:bg-blue-700', 'cursor-pointer', 'transform', 'hover:-translate-y-0.5', 'active:translate-y-0', 'hover:shadow-lg');
+        }
+    }
+</script>
+</body>
+</html>
